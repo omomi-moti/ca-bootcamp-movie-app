@@ -1,7 +1,7 @@
 # 🎬 Movie Search App (iOS)
 
 CyberAgent iOS Bootcamp (Winter 2025) Final Task  
-🏆 Best Growth Award（ベストグロウ賞）受賞作品
+🏆 Best Growth Award（ベストグロース賞）受賞作品
 
 ---
 
