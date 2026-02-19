@@ -6,7 +6,7 @@ CyberAgent iOS Bootcamp (Winter 2025) Final Task
 ---
 
 ## 🎬 Overview
-本アプリは、映画を検索・閲覧し、お気に入り管理ができるiOSアプリです。  
+本アプリは、映画を閲覧し、お気に入り管理ができるiOSアプリです。  
 CyberAgent iOS Bootcamp (Winter 2025) の最終課題として開発し、  
 「実務を意識した設計」「テストによる品質担保」「心地よいUI/UX」の両立を目標にしました。
 
