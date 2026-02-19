@@ -118,13 +118,3 @@ Unit Test を導入し、「なんとなく動く」ではなく「確実に動�
 - Xcode 15.x  
 - iOS 17.x  
 
----
-
-## 🔭 今後の改善案
-
-- Swift Concurrency（async/await）への全面移行  
-- 永続化層の抽象化・CoreData対応  
-- Snapshot Testの導入  
-- CI（GitHub Actions）による自動テスト  
-
----
