@@ -18,14 +18,10 @@ MVVM + Repository パターンと Dependency Injection を採用し、
 
 ---
 
-## 📸 Screenshots
-（スクリーンショット / GIF を配置）
-
----
 
 ## 📘 開発記事（Dev Story）
 設計背景・技術選定の理由・学習プロセスについては、Qiitaに詳細をまとめています。  
-👉 Qiita: 「iOS未経験者がCAブートキャンプでベストグロウ賞を取るまで」
+👉 Qiita: https://qiita.com/omoti_moti/items/cd0524e3378b8e98d559
 
 ---
 
