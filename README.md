@@ -1,116 +1,125 @@
-# 🎬 Movie Search App (iOS)
+# Movie Search App
 
-CyberAgent iOS Bootcamp (Winter 2025) Final Task  
-🏆 Best Growth Award（ベストグロース賞）受賞作品
+TMDB API を使って映画を閲覧し、お気に入りに登録できる iOS アプリです。
+CyberAgent iOS Bootcamp (Winter 2025) の最終課題として作成し、ベストグロース賞をいただきました。
 
----
+提出したソースコードのうち、この課題の分だけをポートフォリオ用に切り出したリポジトリです。
 
-## 🎬 Overview
-本アプリは、映画を閲覧し、お気に入り管理ができるiOSアプリです。  
-CyberAgent iOS Bootcamp (Winter 2025) の最終課題として開発し、  
-「実務を意識した設計」「テストによる品質担保」「心地よいUI/UX」の両立を目標にしました。
+## 主な機能
 
-MVVM + Repository パターンと Dependency Injection を採用し、  
-保守性・拡張性・テスト容易性を重視した構成で実装しています。
+- 無限スクロールによる一覧の追加読み込み
+- お気に入りの登録・解除（UserDefaults に保存）
+- お気に入り登録時のハートのアニメーション
+- お気に入りが 0 件のときの案内表示
 
-> Note: 本リポジトリは、ブートキャンプに提出した最終課題のソースコードを  
-> ポートフォリオ用に抽出したものです。（講義資料・他の課題コードは含んでいません）
+## 技術スタック
 
----
+| 項目 | 内容 |
+| --- | --- |
+| 言語 | Swift 5 |
+| UI | SwiftUI |
+| アーキテクチャ | MVVM + Repository + 依存性注入 (DI) |
+| 通信 | URLSession |
+| 画像読み込み | [Kingfisher](https://github.com/onevcat/Kingfisher) (Swift Package Manager) |
+| 永続化 | UserDefaults |
+| テスト | XCTest |
 
+## 動作環境
 
-## 📘 開発記事（Dev Story）
-設計背景・技術選定の理由・学習プロセスについては、Qiitaに詳細をまとめています。  
-👉 Qiita: https://qiita.com/omoti_moti/items/cd0524e3378b8e98d559
+- macOS と Xcode 15 以降 (開発は Xcode 26.1 で行っています)
+- iOS 17.0 以降
 
----
+## セットアップ
 
-## 🧩 技術スタック（Tech Stack）
+### 1. クローン
 
-- Language: Swift 5  
-- UI: SwiftUI  
-- Architecture: MVVM + Repository Pattern + Dependency Injection  
-- Networking: URLSession  
-  → 標準APIを用いた責務分離とテスト容易性を重視  
-- Image Loading: Kingfisher  
-- Persistence: UserDefaults  
-  → 軽量な永続化に限定し、過剰設計を避けるため採用  
-- Testing: XCTest  
+```bash
+git clone https://github.com/omomi-moti/ca-bootcamp-movie-app.git
+cd ca-bootcamp-movie-app
+```
 
----
+### 2. TMDB のアクセストークンを用意する
 
-## 💡 こだわりの設計（Architecture Strategy）
+1. [TMDB](https://www.themoviedb.org/) のアカウントを作成します。
+2. 設定の API ページで「API Read Access Token」を取得します。
 
-「テストが書けるコードは、設計が良いコードである」という考えのもと、責務分離を徹底しました。
+### 3. トークンを設定する
 
-### 1. MVVM + Repository Pattern + DI
-Viewとロジックを分離するだけでなく、Protocol を用いてデータ取得元を抽象化しました。
+`Day3Homework/Utilities/Constants.swift` の `tmdbAccessToken` に、取得したトークンを入れてください。
 
-- View: UIの描画のみに専念  
-- ViewModel: 画面表示用の状態管理・ロジック  
-- Repository: API通信の実装詳細を隠蔽  
+```swift
+static let tmdbAccessToken = "取得したトークン"
+```
 
-✅ 成果  
-ViewModelのコードを一切変更することなく、「本番通信」と「Mock（テスト用データ）」を切り替え可能にし、  
-オフラインでも開発・テストが行える構成を実現しました。
+トークンを書いたファイルを誤ってコミットしないよう注意してください。
+コミットしたくない場合は、次のコマンドで変更を git の追跡対象から外せます。
 
----
+```bash
+git update-index --skip-worktree Day3Homework/Utilities/Constants.swift
+```
 
-### 2. 品質担保への挑戦（Testing with XCTest）
-Unit Test を導入し、「なんとなく動く」ではなく「確実に動く」状態を担保しました。
+### 4. ビルドと実行
 
-- ViewModel Tests  
-  - 境界値テスト：無限スクロール時、「最後の要素が表示された時のみ」追加読み込みが走ることを検証  
-  - APIスパム防止：不要なタイミングで通信が走らないことを Mock を用いて検証  
+Xcode で開く場合:
 
-- Persistence Tests（FavoritesManager）  
-  - Sandboxing：テスト専用 UserDefaults を用意し、実機データを汚さずに  
-    保存・削除・再起動後のデータ保持を検証  
+1. `Day3Homework.xcodeproj` を開きます。初回は Swift Package (Kingfisher) が自動で解決されます。
+2. スキーム `Day3Homework` とシミュレータを選び、`Cmd + R` で実行します。
 
----
+コマンドラインでビルドする場合:
 
-## 🎨 UI/UXでこだわったポイント
+```bash
+xcodebuild build \
+  -project Day3Homework.xcodeproj \
+  -scheme Day3Homework \
+  -destination 'platform=iOS Simulator,name=iPhone 16'
+```
 
-「機能要件を満たすだけでなく、使っていて心地よいアプリ」を目指し、  
-細部（Micro-interactions）まで作り込みました。
+`name=` には、手元にあるシミュレータ名を指定してください。一覧は `xcrun simctl list devices available` で確認できます。
 
-- ❤️ ハートのアニメーション  
-  - scaleEffect と spring() を組み合わせ、お気に入り登録時に「ポヨン」と弾む動きを実装  
+## テスト
 
-- 🚫 Empty State の工夫  
-  - 単なる空表示ではなく、「登録を促すメッセージ」を表示し、ユーザーの不安を軽減  
+テストはネットワークに接続せず、Mock を使って実行されます。API トークンの設定は不要です。
 
-- ♾ 無限スクロール（Infinite Scroll）  
-  - 「もっと見る」ボタンを廃止し、リスト最下部で自動読み込みを行うことで没入感を向上  
+Xcode では `Cmd + U` で実行できます。
 
-- ⚙️ ロード演出  
-  - 再読み込み中に歯車アニメーションを表示し、処理中であることを直感的にフィードバック  
+コマンドラインでは次のとおりです。
 
----
+```bash
+xcodebuild test \
+  -project Day3Homework.xcodeproj \
+  -scheme Day3Homework \
+  -destination 'platform=iOS Simulator,name=iPhone 16'
+```
 
-## 🔥 苦労した点・学んだこと（Challenges）
+テストの内容は次のとおりです。
 
-- Dependency Injection の理解と実装  
-  - Protocol を導入することで、テスト時に Mock に差し替え可能になる意義を実装を通して体感し、  
-    依存性逆転の原則（DIP）への理解が深まりました。
+| ファイル | 確認していること |
+| --- | --- |
+| `MovieListViewModelTests` | 一覧の最後の要素が表示されたときだけ追加読み込みが走ること。それ以外のタイミングで API を呼ばないこと |
+| `FavoritesManagerTests` | お気に入りの保存・削除ができ、再起動後もデータが残ること。テスト専用の UserDefaults を使い、実機のデータには触れない |
 
-- テスト設計の難しさ  
-  - 「何をテストすべきか」に悩みましたが、「ユーザーに不利益がある不具合」を基準に  
-    重要ロジックから優先的にテストを書く方針に切り替えました。
+## ディレクトリ構成
 
----
+```
+Day3Homework/
+├── Day3HomeworkApp.swift
+├── Models/            Movie, APIResponse
+├── Services/          API 通信 (MovieService)、お気に入り保存 (FavoritesManager)、エラー定義
+├── ViewModels/        MovieListViewModel
+├── Views/             RootView, FavoriteView, Components
+└── Utilities/         Constants (API の URL とトークン)
+Day3HomeworkTests/     XCTest
+```
 
-## 🚀 セットアップ方法
+## 設計について
 
-1. git clone  
-2. Xcodeでプロジェクトを開く  
-3. `Utilities/Constants.swift` (または該当ファイル) にTMDBのAPIキーを設定
-4. build & run  
+- **View** は描画だけを担当します。
+- **ViewModel** は画面の状態と表示用のロジックを持ちます。
+- **Service (Repository)** は通信の詳細を隠します。`MovieServiceProtocol` を介して ViewModel に渡すため、ViewModel を変更せずに本番の通信と Mock を差し替えられます。
 
----
+テストを書きやすい形にすることを、設計の判断基準にしました。
 
-## 🛠 動作環境
+## 開発記事
 
-- Xcode 15.x  
-- iOS 17.x  
-
+設計の背景や学んだことは Qiita にまとめています。
+「iOS未経験者がCAブートキャンプでベストグロース賞を取るまで」
