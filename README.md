@@ -122,4 +122,4 @@ Day3HomeworkTests/     XCTest
 ## 開発記事
 
 設計の背景や学んだことは Qiita にまとめています。
-「iOS未経験者がCAブートキャンプでベストグロース賞を取るまで」
+https://qiita.com/omoti_moti/items/cd0524e3378b8e98d559
